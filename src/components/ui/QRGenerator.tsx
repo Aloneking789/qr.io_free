@@ -321,6 +321,7 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
+// import { Contact } from '@/pages/contact';
 import QRCode from 'qrcode';
 
 export const QRGenerator = () => {
@@ -536,9 +537,9 @@ export const QRGenerator = () => {
               <Link href="/" className="hover:text-gray-400">
                 Home
               </Link>
-              <Link href="/about" className="hover:text-gray-400">
-                About
-              </Link>
+              <a href="https://www.theelitess.com" className="hover:text-gray-400" target="_blank" rel="noopener noreferrer">
+  About
+</a>
               <Link href="/contact" className="hover:text-gray-400">
                 Contact
               </Link>

@@ -31,7 +31,7 @@ This project is open-source and available for free. You are free to use it for p
 
 ## Support
 
-If you encounter any issues or have questions, feel free to reach out via [support email or contact form]. We are happy to help!
+If you encounter any issues or have questions, feel free to reach out via [robertsteeve789@gmail.com]. We are happy to help!
 
 ---
 

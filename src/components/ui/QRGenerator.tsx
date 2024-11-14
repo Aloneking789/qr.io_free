@@ -335,7 +335,7 @@ export const QRGenerator = () => {
     dotStyle: 'square',
     markerStyle: 'square',
     centerStyle: 'square',
-    logo: null,
+    logo: '' as string | ArrayBuffer | null,
     removeLogoBg: false
   });
   const [qrCodeData, setQrCodeData] = useState('');
@@ -354,9 +354,26 @@ export const QRGenerator = () => {
   ];
 
   // Create a canvas element to draw the QR code with custom styles
-  const createStyledQRCode = async (text, options) => {
+  interface QROptions {
+    backgroundColor: string;
+    transparentBg: boolean;
+    dotsColor: string;
+    useGradient: boolean;
+    markerBorderColor: string;
+    markerCenterColor: string;
+    dotStyle: string;
+    markerStyle: string;
+    centerStyle: string;
+    logo: string | ArrayBuffer | null;
+    removeLogoBg: boolean;
+  }
+
+  const createStyledQRCode = async (text: string, options: QROptions): Promise<string> => {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
+    if (!ctx) {
+      throw new Error('Failed to get 2D context');
+    }
     
     // Generate basic QR code data
     const qrData = await QRCode.create(text, {
@@ -446,23 +463,38 @@ export const QRGenerator = () => {
     }
   }, [qrOptions]);
 
-  const handleLogoUpload = (e) => {
-    const file = e.target.files[0];
+  interface FileReaderEventTarget extends EventTarget {
+    result: string;
+  }
+
+  interface FileReaderEvent extends ProgressEvent {
+    target: FileReaderEventTarget;
+  }
+
+  const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (e) => {
+      reader.onload = (e: ProgressEvent<FileReader>) => {
         setQrOptions({
           ...qrOptions,
-          logo: e.target.result
+          logo: e.target?.result ?? null
         });
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const downloadQRCode = (format) => {
+  interface DownloadQRCodeProps {
+    format: 'svg' | 'png' | 'jpg';
+  }
+
+  const downloadQRCode = (format: DownloadQRCodeProps['format']): void => {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
+    if (!ctx) {
+      throw new Error('Failed to get 2D context');
+    }
     const img = new Image();
     img.src = qrCodeData;
     img.onload = () => {
@@ -695,7 +727,7 @@ export const QRGenerator = () => {
 
             {/* Download Buttons */}
             {qrCodeData && (
-              <div className="space-x-4 mt-4 flex justify-center">
+              <div className="space-x-4 mt-4 flex justify-center pb-20">
                 <Button onClick={() => downloadQRCode('svg')}>Download SVG</Button>
                 <Button onClick={() => downloadQRCode('png')}>Download PNG</Button>
                 <Button onClick={() => downloadQRCode('jpg')}>Download JPG</Button>

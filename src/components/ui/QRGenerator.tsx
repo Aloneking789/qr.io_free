@@ -463,13 +463,13 @@ export const QRGenerator = () => {
     }
   }, [qrOptions]);
 
-  interface FileReaderEventTarget extends EventTarget {
-    result: string;
-  }
+  // interface FileReaderEventTarget extends EventTarget {
+  //   result: string;
+  // }
 
-  interface FileReaderEvent extends ProgressEvent {
-    target: FileReaderEventTarget;
-  }
+  // interface FileReaderEvent extends ProgressEvent {
+  //   target: FileReaderEventTarget;
+  // }
 
   const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const file = e.target.files?.[0];
